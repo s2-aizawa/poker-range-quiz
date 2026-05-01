@@ -32,13 +32,13 @@ export default function StrengthSelector({
             onClick={() => !answered && onSelect(level)}
             disabled={answered}
             className={`
-              rounded-lg py-3 px-2 font-bold text-sm transition-all duration-150
+              rounded-lg py-2 px-1 font-bold text-sm transition-all duration-150
               ${info.bgClass} ${info.textClass} ${info.borderClass ?? ''}
               ${ring}
               ${!answered ? 'hover:brightness-90 active:scale-95 cursor-pointer' : 'cursor-default'}
             `}
           >
-            <div className="text-lg">{level}</div>
+            <div className="text-base">{level}</div>
             <div className="text-xs font-normal leading-tight">{info.description}</div>
           </button>
         )

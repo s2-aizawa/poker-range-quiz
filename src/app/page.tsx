@@ -13,8 +13,8 @@ export default function QuizPage() {
   const isCorrect = answered && selectedLevel === correctLevel
 
   return (
-    <main className="min-h-screen bg-gray-900 text-white flex flex-col items-center py-8 px-4">
-      <div className="w-full max-w-lg flex flex-col items-center gap-6">
+    <main className="min-h-screen bg-gray-900 text-white flex flex-col items-center py-3 px-4">
+      <div className="w-full max-w-lg flex flex-col items-center gap-2">
 
         {/* Header */}
         <div className="flex w-full justify-between items-center">
@@ -36,16 +36,16 @@ export default function QuizPage() {
         />
 
         {/* Hand Display */}
-        <div className="bg-gray-800 rounded-2xl p-8 w-full flex flex-col items-center gap-4">
+        <div className="bg-gray-800 rounded-2xl p-4 w-full flex flex-col items-center gap-2">
           <p className="text-gray-400 text-sm">このハンドのレベルは？</p>
           <HandDisplay hand={currentHand} />
         </div>
 
         {/* Feedback */}
         {answered && (
-          <div className={`w-full rounded-xl p-4 text-center font-bold text-lg transition-all ${isCorrect ? 'bg-green-700' : 'bg-red-700'}`}>
+          <div className={`w-full rounded-xl p-2 text-center font-bold text-base transition-all ${isCorrect ? 'bg-green-700' : 'bg-red-700'}`}>
             {isCorrect ? '正解！' : '不正解'}
-            <div className="text-base font-normal mt-1">
+            <div className="text-sm font-normal mt-0.5">
               正解: <span className="font-bold">レベル {correctLevel}</span>
               {correctLevel && (
                 <span className={`ml-2 px-2 py-0.5 rounded text-sm ${LEVEL_INFO[correctLevel].bgClass} ${LEVEL_INFO[correctLevel].textClass} ${LEVEL_INFO[correctLevel].borderClass ?? ''}`}>
@@ -68,7 +68,7 @@ export default function QuizPage() {
         {answered && (
           <button
             onClick={next}
-            className="w-full max-w-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold py-4 rounded-xl text-lg transition-colors"
+            className="w-full max-w-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold py-2 rounded-xl text-base transition-colors"
           >
             次のハンド →
           </button>
