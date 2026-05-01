@@ -32,30 +32,11 @@ export default function RangeChart() {
       {/* Grid */}
       <div
         className="inline-grid"
-        style={{ gridTemplateColumns: `${CELL}px repeat(13, ${CELL}px)` }}
+        style={{ gridTemplateColumns: `repeat(13, ${CELL}px)` }}
       >
-        {/* Header row */}
-        <div style={{ width: CELL, height: CELL }} />
-        {RANKS.map((r) => (
-          <div
-            key={r}
-            style={{ width: CELL, height: CELL }}
-            className="flex items-center justify-center text-[9px] font-bold text-gray-300"
-          >
-            {r}
-          </div>
-        ))}
-
         {/* Data rows */}
-        {RANKS.map((rowRank, row) => (
+        {RANKS.map((_, row) => (
           <>
-            <div
-              key={`row-${row}`}
-              style={{ width: CELL, height: CELL }}
-              className="flex items-center justify-center text-[9px] font-bold text-gray-300"
-            >
-              {rowRank}
-            </div>
             {RANKS.map((_, col) => {
               const hand = getHandForGrid(row, col)
               const level = HAND_LEVELS[hand] ?? 9

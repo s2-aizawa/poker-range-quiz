@@ -11,7 +11,7 @@ export default function RangePage() {
         >
           ← 戻る
         </Link>
-        <h1 className="text-base font-bold">レンジ表（トーナメント用）</h1>
+        <h1 className="text-base font-bold">レンジ表_トーナメント</h1>
         <a
           href="https://light-three.com/hand-range-yokosawa/"
           target="_blank"
