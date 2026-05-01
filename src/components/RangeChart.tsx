@@ -3,13 +3,11 @@
 import { RANKS, HAND_LEVELS, LEVEL_INFO, getHandForGrid } from '@/data/ranges'
 import { useState } from 'react'
 
-const CELL = 26
-
 export default function RangeChart() {
   const [selectedHand, setSelectedHand] = useState<string | null>(null)
 
   return (
-    <div>
+    <div className="w-full">
       {/* Legend */}
       <div className="grid grid-cols-3 gap-1 mb-2">
         {Object.entries(LEVEL_INFO).map(([level, info]) => (
@@ -31,8 +29,8 @@ export default function RangeChart() {
 
       {/* Grid */}
       <div
-        className="inline-grid"
-        style={{ gridTemplateColumns: `repeat(13, ${CELL}px)` }}
+        className="w-full grid"
+        style={{ gridTemplateColumns: 'repeat(13, 1fr)' }}
       >
         {/* Data rows */}
         {RANKS.map((_, row) => (
@@ -46,8 +44,7 @@ export default function RangeChart() {
                 <div
                   key={`${row}-${col}`}
                   onClick={() => setSelectedHand(isSelected ? null : hand)}
-                  style={{ width: CELL, height: CELL }}
-                  className={`flex items-center justify-center text-[7px] font-bold cursor-pointer rounded-sm
+                  className={`aspect-square flex items-center justify-center text-[7px] font-bold cursor-pointer rounded-sm
                     ${info.bgClass} ${info.textClass} ${info.borderClass ?? ''}
                     ${isSelected ? 'ring-2 ring-yellow-400 z-10 relative' : ''}`}
                 >
