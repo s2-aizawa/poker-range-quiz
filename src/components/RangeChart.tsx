@@ -3,66 +3,79 @@
 import { RANKS, HAND_LEVELS, LEVEL_INFO, getHandForGrid } from '@/data/ranges'
 import { useState } from 'react'
 
+const CELL = 26
+
 export default function RangeChart() {
-  const [hoveredHand, setHoveredHand] = useState<string | null>(null)
+  const [selectedHand, setSelectedHand] = useState<string | null>(null)
 
   return (
-    <div className="overflow-x-auto">
-      <div className="min-w-max">
-        {/* Legend */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {Object.entries(LEVEL_INFO).map(([level, info]) => (
-            <div key={level} className={`px-2 py-1 rounded text-xs font-bold ${info.bgClass} ${info.textClass} ${info.borderClass ?? ''}`}>
-              {level}: {info.description}
+    <div>
+      {/* Legend */}
+      <div className="grid grid-cols-3 gap-1 mb-2">
+        {Object.entries(LEVEL_INFO).map(([level, info]) => (
+          <div
+            key={level}
+            className={`px-1 py-0.5 rounded text-[9px] font-bold text-center ${info.bgClass} ${info.textClass} ${info.borderClass ?? ''}`}
+          >
+            {level}: {info.description}
+          </div>
+        ))}
+      </div>
+
+      {/* Selected hand info */}
+      <div className="h-5 mb-1 text-[11px] font-mono text-center text-gray-300">
+        {selectedHand
+          ? `${selectedHand} → Lv${HAND_LEVELS[selectedHand]}: ${LEVEL_INFO[HAND_LEVELS[selectedHand]]?.description}`
+          : 'セルをタップ → ハンド情報'}
+      </div>
+
+      {/* Grid */}
+      <div
+        className="inline-grid"
+        style={{ gridTemplateColumns: `${CELL}px repeat(13, ${CELL}px)` }}
+      >
+        {/* Header row */}
+        <div style={{ width: CELL, height: CELL }} />
+        {RANKS.map((r) => (
+          <div
+            key={r}
+            style={{ width: CELL, height: CELL }}
+            className="flex items-center justify-center text-[9px] font-bold text-gray-300"
+          >
+            {r}
+          </div>
+        ))}
+
+        {/* Data rows */}
+        {RANKS.map((rowRank, row) => (
+          <>
+            <div
+              key={`row-${row}`}
+              style={{ width: CELL, height: CELL }}
+              className="flex items-center justify-center text-[9px] font-bold text-gray-300"
+            >
+              {rowRank}
             </div>
-          ))}
-        </div>
-
-        {/* Hovered hand info */}
-        <div className="h-6 mb-2 text-sm font-mono text-gray-300">
-          {hoveredHand && (
-            <span>
-              {hoveredHand} → レベル {HAND_LEVELS[hoveredHand]}: {LEVEL_INFO[HAND_LEVELS[hoveredHand]]?.description}
-            </span>
-          )}
-        </div>
-
-        {/* Grid */}
-        <div className="inline-grid" style={{ gridTemplateColumns: `repeat(14, minmax(0, 1fr))` }}>
-          {/* Header row */}
-          <div className="w-8 h-8" />
-          {RANKS.map((r) => (
-            <div key={r} className="w-10 h-8 flex items-center justify-center text-xs font-bold text-gray-300">
-              {r}
-            </div>
-          ))}
-
-          {/* Data rows */}
-          {RANKS.map((rowRank, row) => (
-            <>
-              <div key={`row-${row}`} className="w-8 h-8 flex items-center justify-center text-xs font-bold text-gray-300">
-                {rowRank}
-              </div>
-              {RANKS.map((_, col) => {
-                const hand = getHandForGrid(row, col)
-                const level = HAND_LEVELS[hand] ?? 9
-                const info = LEVEL_INFO[level]
-                return (
-                  <div
-                    key={`${row}-${col}`}
-                    onMouseEnter={() => setHoveredHand(hand)}
-                    onMouseLeave={() => setHoveredHand(null)}
-                    className={`w-10 h-10 flex items-center justify-center text-xs font-bold cursor-default rounded-sm m-px
-                      ${info.bgClass} ${info.textClass} ${info.borderClass ?? ''}`}
-                    title={`${hand}: レベル${level} ${info.description}`}
-                  >
-                    {hand}
-                  </div>
-                )
-              })}
-            </>
-          ))}
-        </div>
+            {RANKS.map((_, col) => {
+              const hand = getHandForGrid(row, col)
+              const level = HAND_LEVELS[hand] ?? 9
+              const info = LEVEL_INFO[level]
+              const isSelected = selectedHand === hand
+              return (
+                <div
+                  key={`${row}-${col}`}
+                  onClick={() => setSelectedHand(isSelected ? null : hand)}
+                  style={{ width: CELL, height: CELL }}
+                  className={`flex items-center justify-center text-[7px] font-bold cursor-pointer rounded-sm
+                    ${info.bgClass} ${info.textClass} ${info.borderClass ?? ''}
+                    ${isSelected ? 'ring-2 ring-yellow-400 z-10 relative' : ''}`}
+                >
+                  {hand}
+                </div>
+              )
+            })}
+          </>
+        ))}
       </div>
     </div>
   )
